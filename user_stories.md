@@ -15,6 +15,8 @@ _As a [user role], I want [feature/goal], so that [reason]._
 
 ---
 
+## Admin User Stories
+
 **Title:**
 _As an admin, I want to log into the portal with my username and password, so that I can manage the platform securely._
 
@@ -89,6 +91,8 @@ _As an admin, I want to run a stored procedure in MySQL CLI to get the number of
 - Requires the stored procedure to be pre-defined in the MySQL database schema.
 
 ---
+
+## Patient User Stories
 
 **Title:**
 _As a patient, I want to view a list of doctors without logging in, so that I can explore options before registering._
@@ -179,6 +183,8 @@ _As a patient, I want to view my upcoming appointments, so that I can prepare ac
 - Data is fetched from the MySQL appointment table.
 
 ---
+
+## Doctor User Stories
 
 **Title:**
 _As a doctor, I want to log into the portal, so that I can manage my appointments efficiently._
