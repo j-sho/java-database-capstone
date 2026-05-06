@@ -1,30 +1,58 @@
 package com.project.back_end.mvc;
 
+import com.project.back_end.services.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.Map;
+
+/**
+ * DashboardController - MVC Controller for handling Admin and Doctor Dashboard routing.
+ */
+@Controller
 public class DashboardController {
 
-// 1. Set Up the MVC Controller Class:
-//    - Annotate the class with `@Controller` to indicate that it serves as an MVC controller returning view names (not JSON).
-//    - This class handles routing to admin and doctor dashboard pages based on token validation.
+    @Autowired
+    private Service service;
 
+    /**
+     * Handles HTTP GET requests to the Admin Dashboard.
+     * @param token - Admin's authentication token.
+     * @return - View name for Thymeleaf to resolve or redirect URL.
+     */
+    @GetMapping("/adminDashboard/{token}")
+    public String adminDashboard(@PathVariable String token) {
+        // Call validateToken from the service and check the response status
+        ResponseEntity<Map<String, String>> result = service.validateToken(token, "admin");
 
-// 2. Autowire the Shared Service:
-//    - Inject the common `Service` class, which provides the token validation logic used to authorize access to dashboards.
+        // If the response is OK, the token is valid
+        if (result.getStatusCode().is2xxSuccessful()) {
+            return "admin/adminDashboard";
+        }
 
+        // If not valid, redirect to the login/home page
+        return "redirect:/";
+    }
 
-// 3. Define the `adminDashboard` Method:
-//    - Handles HTTP GET requests to `/adminDashboard/{token}`.
-//    - Accepts an admin's token as a path variable.
-//    - Validates the token using the shared service for the `"admin"` role.
-//    - If the token is valid (i.e., no errors returned), forwards the user to the `"admin/adminDashboard"` view.
-//    - If invalid, redirects to the root URL, likely the login or home page.
+    /**
+     * Handles HTTP GET requests to the Doctor Dashboard.
+     * @param token - Doctor's authentication token.
+     * @return - View name for Thymeleaf to resolve or redirect URL.
+     */
+    @GetMapping("/doctorDashboard/{token}")
+    public String doctorDashboard(@PathVariable String token) {
+        // Call validateToken from the service and check the response status
+        ResponseEntity<Map<String, String>> result = service.validateToken(token, "doctor");
 
+        // If the response is OK, the token is valid
+        if (result.getStatusCode().is2xxSuccessful()) {
+            return "doctor/doctorDashboard";
+        }
 
-// 4. Define the `doctorDashboard` Method:
-//    - Handles HTTP GET requests to `/doctorDashboard/{token}`.
-//    - Accepts a doctor's token as a path variable.
-//    - Validates the token using the shared service for the `"doctor"` role.
-//    - If the token is valid, forwards the user to the `"doctor/doctorDashboard"` view.
-//    - If the token is invalid, redirects to the root URL.
-
-
+        // If not valid, redirect to the login/home page
+        return "redirect:/";
+    }
 }

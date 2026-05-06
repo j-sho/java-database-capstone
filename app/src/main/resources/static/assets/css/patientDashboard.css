@@ -1,80 +1,114 @@
 /* This is the style sheet for the patientDashboard.html */
-  .card-actions {
+
+/* 1. Doctor Card Actions */
+.card-actions {
     background-color: #244557;
     padding: 10px;
     text-align: center;
-  }
+    transition: background-color 0.3s ease;
+}
 
-  .card-actions:hover{
+.card-actions:hover {
     background-color: #1c3745;
-  }
-  .ripple-overlay {
+}
+
+/* 2. Ripple Overlay for Visual Feedback */
+.ripple-overlay {
     position: fixed;
     width: 20px;
     height: 20px;
     background-color: #1c3745;
     border-radius: 50%;
     z-index: 9999;
+    top: 50%;
+    left: 50%;
     transform: translate(-50%, -50%) scale(0);
     transition: transform 1s ease-out, opacity 1s ease;
-  }
-  
-  .ripple-overlay.active {
+    pointer-events: none;
+    opacity: 0;
+}
+
+.ripple-overlay.active {
     transform: translate(-50%, -50%) scale(150);
     opacity: 1;
-  }
-  
-  .modalApp {
-    position: fixed;
-  bottom: -100%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 50%;
-  background: #fff;
-  padding: 20px;
-  z-index: 10000;
-  transition: bottom 1.5s ease-in;
-  box-shadow: 0 -5px 10px rgba(0, 0, 0, 0.3);
-  border-radius: 10px 10px 0 0;
-  text-align: center;
-  }
-  
-  .modalApp.active {
-    bottom: 0;
-  }
-  
-  .modalApp h2 {
-    margin-top: 20px;
-  }
-  
-  .modalApp input {
-    display: block;
-    margin: 10px auto;
-    padding: 10px;
-    width: 90%;
-    margin-bottom: 40px;
-  }
+}
 
-  .modalApp select {
+/* 3. Bottom Pop-Up Modal for Booking */
+.modalApp {
+    position: fixed;
+    bottom: -100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%;
+    max-width: 600px;
+    background: #fff;
+    padding: 20px;
+    z-index: 10000;
+    transition: bottom 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.3);
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+}
+
+.modalApp.active {
+    bottom: 0;
+}
+
+.modalApp h2 {
+    margin: 20px 0;
+    color: #244557;
+}
+
+/* 4. Form Fields Inside Modal */
+.modalApp input, 
+.modalApp select {
     display: block;
-    margin: 10px auto;
-    padding: 10px;
+    margin: 15px auto;
+    padding: 12px;
     width: 90%;
-    margin-bottom: 40px;
-  }
-  
-  .confirm-booking {
-    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.modalApp input:focus, 
+.modalApp select:focus {
+    border-color: #244557;
+}
+
+/* 5. Booking Confirmation Button */
+.confirm-booking {
+    padding: 12px 30px;
     background: #1c3745;
     color: #fff;
     border: none;
+    border-radius: 25px; /* Rounded corners for a clean, clickable look */
     cursor: pointer;
-    
-  
-    
-  }
-  .confirm-booking:hover {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 20px 0;
+    transition: filter 0.3s ease, transform 0.2s ease;
+}
+
+.confirm-booking:hover {
     filter: brightness(1.2);
-    background-color: #1c3745;
-  }
-  
+    transform: translateY(-2px);
+}
+
+.confirm-booking:active {
+    transform: translateY(0);
+}
+
+/* Responsive adjustments for the bottom modal */
+@media (max-width: 768px) {
+    .modalApp {
+        width: 95%;
+        padding: 15px;
+    }
+    
+    .confirm-booking {
+        width: 90%;
+    }
+}
