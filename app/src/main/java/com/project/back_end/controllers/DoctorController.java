@@ -34,7 +34,7 @@ public class DoctorController {
     /**
      * Retrieves availability for a specific doctor on a given date.
      */
-    @GetMapping("/availability/{user}/{doctorId}/{date}/{token}")
+    @GetMapping("/availability/{user}/{doctorId}/{date}/{token:.+}")
     public ResponseEntity<Map<String, Object>> getDoctorAvailability(@PathVariable String user,
                                                                     @PathVariable Long doctorId,
                                                                     @PathVariable String date,
@@ -65,7 +65,7 @@ public class DoctorController {
     /**
      * Registers a new doctor (Admin only).
      */
-    @PostMapping("/{token}")
+    @PostMapping("/{token:.+}")
     public ResponseEntity<Map<String, String>> saveDoctor(@RequestBody Doctor doctor,
                                                          @PathVariable String token) {
         Map<String, String> response = new HashMap<>();
@@ -99,7 +99,7 @@ public class DoctorController {
     /**
      * Updates an existing doctor's information (Admin only).
      */
-    @PutMapping("/{token}")
+    @PutMapping("/{token:.+}")
     public ResponseEntity<Map<String, String>> updateDoctor(@RequestBody Doctor doctor,
                                                            @PathVariable String token) {
         Map<String, String> response = new HashMap<>();
@@ -125,7 +125,7 @@ public class DoctorController {
     /**
      * Deletes a doctor record (Admin only).
      */
-    @DeleteMapping("/{id}/{token}")
+    @DeleteMapping("/{id}/{token:.+}")
     public ResponseEntity<Map<String, String>> deleteDoctor(@PathVariable long id,
                                                            @PathVariable String token) {
         Map<String, String> response = new HashMap<>();
@@ -155,10 +155,10 @@ public class DoctorController {
     public ResponseEntity<Map<String, Object>> filter(@PathVariable String name,
                                                      @PathVariable String time,
                                                      @PathVariable String speciality) {
-        // Handle "null" strings from frontend if necessary
-        String filterName = name.equals("null") ? null : name;
-        String filterTime = time.equals("null") ? null : time;
-        String filterSpec = speciality.equals("null") ? null : speciality;
+        // Handle "null", "all", or empty strings from frontend
+        String filterName = (name == null || name.equalsIgnoreCase("null") || name.equalsIgnoreCase("all") || name.isEmpty()) ? null : name;
+        String filterTime = (time == null || time.equalsIgnoreCase("null") || time.equalsIgnoreCase("all") || time.isEmpty()) ? null : time;
+        String filterSpec = (speciality == null || speciality.equalsIgnoreCase("null") || speciality.equalsIgnoreCase("all") || speciality.isEmpty()) ? null : speciality;
 
         Map<String, Object> result = service.filterDoctor(filterName, filterSpec, filterTime);
         return ResponseEntity.ok(result);

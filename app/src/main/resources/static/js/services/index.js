@@ -4,31 +4,18 @@
 
 import { openModal } from "../components/modals.js";
 import { API_BASE_URL } from "../config/config.js";
-import { selectRole } from "../render.js";
+
+// selectRole is global from render.js
 
 // API Endpoints
-const ADMIN_API = API_BASE_URL + '/admin';
+const ADMIN_API = API_BASE_URL + '/admin/login';
 const DOCTOR_API = API_BASE_URL + '/doctor/login';
 
-/**
- * Initialize event listeners for the main role selection screen.
- */
-window.onload = function () {
-    const adminBtn = document.getElementById('adminLogin');
-    const doctorBtn = document.getElementById('doctorLogin');
+// Expose functions to window for HTML onclick handlers
+// redundant assignment removed as it is already global
+window.openModal = openModal;
 
-    if (adminBtn) {
-        adminBtn.addEventListener('click', () => {
-            openModal('adminLogin');
-        });
-    }
-
-    if (doctorBtn) {
-        doctorBtn.addEventListener('click', () => {
-            openModal('doctorLogin');
-        });
-    }
-};
+// redundant window.onload removed
 
 /**
  * Handles the Admin login process.
@@ -54,7 +41,7 @@ window.adminLoginHandler = async function () {
             const data = await response.json();
             const token = data.token;
             localStorage.setItem("token", token);
-            selectRole("admin");
+            window.selectRole("admin");
         } else {
             alert("Invalid credentials!");
         }
@@ -73,9 +60,9 @@ window.doctorLoginHandler = async function () {
 
     if (!emailInput || !passwordInput) return;
 
-    const email = emailInput.value;
+    const identifier = emailInput.value;
     const password = passwordInput.value;
-    const doctor = { email, password };
+    const doctor = { identifier, password };
 
     try {
         const response = await fetch(DOCTOR_API, {
@@ -88,7 +75,7 @@ window.doctorLoginHandler = async function () {
             const data = await response.json();
             const token = data.token;
             localStorage.setItem("token", token);
-            selectRole("doctor");
+            window.selectRole("doctor");
         } else {
             alert("Invalid credentials!");
         }

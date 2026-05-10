@@ -212,14 +212,28 @@ public class DoctorService {
     /**
      * Private helper to filter a list of doctors by their available times (AM/PM).
      */
-    private List<Doctor> filterDoctorByTime(List<Doctor> doctors, String amOrPm) {
-        if (amOrPm == null || amOrPm.equalsIgnoreCase("null") || amOrPm.isEmpty()) return doctors;
+    private List<Doctor> filterDoctorByTime(List<Doctor> doctors, String timeStr) {
+        if (timeStr == null || timeStr.equalsIgnoreCase("null") || timeStr.equalsIgnoreCase("all") || timeStr.isEmpty()) return doctors;
 
-        boolean isAM = amOrPm.equalsIgnoreCase("AM");
+        boolean isAM = timeStr.equalsIgnoreCase("AM");
+        boolean isPM = timeStr.equalsIgnoreCase("PM");
+
         return doctors.stream()
                 .filter(d -> d.getAvailableTimes().stream().anyMatch(t -> {
-                    LocalTime lt = LocalTime.parse(t);
-                    return isAM ? lt.isBefore(LocalTime.NOON) : !lt.isBefore(LocalTime.NOON);
+                    // Check for exact match first (e.g., "09:00-10:00")
+                    if (t.equalsIgnoreCase(timeStr)) return true;
+
+                    // Otherwise, try AM/PM logic
+                    try {
+                        // Extract start time from range (e.g., "09:00" from "09:00-10:00")
+                        String startTimeStr = t.split("-")[0];
+                        LocalTime lt = LocalTime.parse(startTimeStr);
+                        if (isAM) return lt.isBefore(LocalTime.NOON);
+                        if (isPM) return !lt.isBefore(LocalTime.NOON);
+                    } catch (Exception e) {
+                        return false;
+                    }
+                    return false;
                 }))
                 .collect(Collectors.toList());
     }

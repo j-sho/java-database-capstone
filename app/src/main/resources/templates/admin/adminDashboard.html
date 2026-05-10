@@ -23,17 +23,17 @@
 
             <main class="main-content">
                 <!-- Search bar -->
-                <input type="text" id="searchBar" placeholder="search by doctor name" onkeyup="filterDoctors()" />
+                <input type="text" id="searchBar" placeholder="search by doctor name" />
 
                 <!-- Filter section -->
                 <div class="filters">
-                    <select id="timeSort" onchange="filterDoctors()">
+                    <select id="filterTime">
                         <option value="">Sort by time</option>
                         <option value="AM">Morning (AM)</option>
                         <option value="PM">Afternoon (PM)</option>
                     </select>
 
-                    <select id="specialtyFilter" onchange="filterDoctors()">
+                    <select id="filterSpecialty">
                         <option value="">Filter by specialty</option>
                         <option value="Cardiologist">Cardiologist</option>
                         <option value="Dentist">Dentist</option>
@@ -41,6 +41,9 @@
                         <option value="Neurologist">Neurologist</option>
                         <option value="General Physician">General Physician</option>
                     </select>
+                    
+                    <!-- Added Add Doctor button that matches adminDashboard.js id -->
+                    <button id="addDocBtn" class="dashboard-btn">Add Doctor</button>
                 </div>
 
                 <!-- Dynamic list of doctors -->
@@ -54,12 +57,14 @@
 
     <!-- Hidden Modal for Adding/Editing Doctor -->
     <div id="modal" class="modal" style="display: none;">
-        <span id="closeModal" class="close">&times;</span>
-        <div id="modal-body"></div>
+        <div class="modal-content">
+            <button id="closeModal">Close</button>
+            <div id="modal-body"></div>
+        </div>
     </div>
 
     <!-- Service scripts for admin dashboard and doctorCard -->
-    <script type="module" src="../js/services/adminDashboard.js" defer></script>
-    <script type="module" src="../js/components/doctorCard.js" defer></script>
+    <script type="module" th:src="@{/js/adminDashboard.js}" defer></script>
+    <script type="module" th:src="@{/js/components/doctorCard.js}" defer></script>
 </body>
 </html>

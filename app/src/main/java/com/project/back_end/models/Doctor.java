@@ -29,10 +29,10 @@ public class Doctor {
     private String password;
 
     @NotNull
-    @Pattern(regexp = "\\d{10}", message = "Phone number must be 10 digits")
+    @Pattern(regexp = "[\\d\\-]{10,15}", message = "Phone number must be valid")
     private String phone;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> availableTimes;
 
     public Doctor() {}

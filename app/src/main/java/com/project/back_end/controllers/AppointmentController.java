@@ -31,7 +31,7 @@ public class AppointmentController {
     /**
      * Retrieves appointments for a specific doctor and date.
      */
-    @GetMapping("/{date}/{patientName}/{token}")
+    @GetMapping("/{date}/{patientName}/{token:.+}")
     public ResponseEntity<Map<String, Object>> getAppointments(@PathVariable String date,
                                                               @PathVariable String patientName,
                                                               @PathVariable String token) {
@@ -51,7 +51,7 @@ public class AppointmentController {
     /**
      * Books a new appointment for a patient.
      */
-    @PostMapping("/{token}")
+    @PostMapping("/{token:.+}")
     public ResponseEntity<Map<String, String>> bookAppointment(@RequestBody Appointment appointment,
                                                               @PathVariable String token) {
         Map<String, String> response = new HashMap<>();
@@ -85,7 +85,7 @@ public class AppointmentController {
     /**
      * Updates an existing appointment.
      */
-    @PutMapping("/{token}")
+    @PutMapping("/{token:.+}")
     public ResponseEntity<Map<String, String>> updateAppointment(@RequestBody Appointment appointment,
                                                                 @PathVariable String token) {
         ResponseEntity<Map<String, String>> tokenValidation = service.validateToken(token, "patient");
@@ -99,7 +99,7 @@ public class AppointmentController {
     /**
      * Cancels an appointment.
      */
-    @DeleteMapping("/{id}/{token}")
+    @DeleteMapping("/{id}/{token:.+}")
     public ResponseEntity<Map<String, String>> cancelAppointment(@PathVariable long id,
                                                                 @PathVariable String token) {
         ResponseEntity<Map<String, String>> tokenValidation = service.validateToken(token, "patient");

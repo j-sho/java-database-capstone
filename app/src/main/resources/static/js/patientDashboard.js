@@ -6,7 +6,7 @@ import { getDoctors, filterDoctors } from './services/doctorServices.js';
 import { openModal } from './components/modals.js';
 import { createDoctorCard } from './components/doctorCard.js';
 import { patientSignup, patientLogin } from './services/patientServices.js';
-import { selectRole } from './render.js';
+// selectRole is global
 
 /**
  * Initialize the dashboard and event listeners on page load.
@@ -101,11 +101,11 @@ function filterDoctorsOnChange() {
  * Handles patient signup form submission.
  */
 window.signupPatient = async function () {
-    const name = document.getElementById("name")?.value;
-    const email = document.getElementById("email")?.value;
-    const password = document.getElementById("password")?.value;
-    const phone = document.getElementById("phone")?.value;
-    const address = document.getElementById("address")?.value;
+    const name = document.getElementById("patientSignupName")?.value;
+    const email = document.getElementById("patientSignupEmail")?.value;
+    const password = document.getElementById("patientSignupPassword")?.value;
+    const phone = document.getElementById("patientSignupPhone")?.value;
+    const address = document.getElementById("patientSignupAddress")?.value;
 
     const data = { name, email, password, phone, address };
 
@@ -129,10 +129,9 @@ window.signupPatient = async function () {
  * Handles patient login form submission.
  */
 window.loginPatient = async function () {
-    const email = document.getElementById("email")?.value;
-    const password = document.getElementById("password")?.value;
-
-    const data = { email, password };
+    const identifier = document.getElementById("patientLoginEmail")?.value;
+    const password = document.getElementById("patientLoginPassword")?.value;
+    const data = { identifier, password };
 
     try {
         const response = await patientLogin(data);
@@ -141,8 +140,8 @@ window.loginPatient = async function () {
             const result = await response.json();
             // Store token and redirect
             localStorage.setItem('token', result.token);
-            if (typeof selectRole === "function") {
-                selectRole('loggedPatient');
+            if (typeof window.selectRole === "function") {
+                window.selectRole('loggedPatient');
             }
             window.location.href = '/pages/patientDashboard.html'; // Or loggedPatientDashboard.html if required
         } else {

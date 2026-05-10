@@ -30,8 +30,8 @@
                 <main class="main-content">
                     <h2 id="roleHeader">Select Your Role</h2>
                     <div class="role-selection">
-                        <button id="adminBtn" onclick="selectRole('admin')">Admin</button>
-                        <button id="doctorBtn" onclick="selectRole('doctor')">Doctor</button>
+                        <button id="adminBtn" onclick="openModal('adminLogin')">Admin</button>
+                        <button id="doctorBtn" onclick="openModal('doctorLogin')">Doctor</button>
                         <button id="patientBtn" onclick="selectRole('patient')">Patient</button>
                     </div>
                 </main>
@@ -51,6 +51,6 @@
     </div>
 
     <!-- Main Service Script -->
-    <script type="module" src="../js/services/index.js" defer></script>
+    <script type="module" src="./js/services/index.js" defer></script>
 </body>
 </html>

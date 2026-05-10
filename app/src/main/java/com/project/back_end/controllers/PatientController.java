@@ -32,7 +32,7 @@ public class PatientController {
     /**
      * Retrieves patient profile details using a token.
      */
-    @GetMapping("/{token}")
+    @GetMapping("/{token:.+}")
     public ResponseEntity<Map<String, Object>> getPatient(@PathVariable String token) {
         ResponseEntity<Map<String, String>> tokenValidation = service.validateToken(token, "patient");
         if (tokenValidation.getStatusCode().isError()) {
@@ -79,7 +79,7 @@ public class PatientController {
     /**
      * Fetches appointment history for a specific patient.
      */
-    @GetMapping("/{id}/{token}")
+    @GetMapping("/{id}/{token:.+}")
     public ResponseEntity<Map<String, Object>> getPatientAppointment(@PathVariable Long id,
                                                                     @PathVariable String token) {
         // Here we validate as "patient" but the service implementation can handle other checks if needed.
@@ -97,7 +97,7 @@ public class PatientController {
     /**
      * Filters patient's appointments based on condition and/or doctor name.
      */
-    @GetMapping("/filter/{condition}/{name}/{token}")
+    @GetMapping("/filter/{condition}/{name}/{token:.+}")
     public ResponseEntity<Map<String, Object>> filterPatientAppointment(@PathVariable String condition,
                                                                        @PathVariable String name,
                                                                        @PathVariable String token) {
@@ -108,9 +108,9 @@ public class PatientController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
         }
 
-        // Handle "null" strings from frontend
-        String filterCondition = condition.equals("null") ? null : condition;
-        String filterName = name.equals("null") ? null : name;
+        // Handle "null", "all", or empty strings from frontend
+        String filterCondition = (condition == null || condition.equalsIgnoreCase("null") || condition.equalsIgnoreCase("all") || condition.isEmpty()) ? null : condition;
+        String filterName = (name == null || name.equalsIgnoreCase("null") || name.equalsIgnoreCase("all") || name.isEmpty()) ? null : name;
 
         return service.filterPatient(filterCondition, filterName, token);
     }

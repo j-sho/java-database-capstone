@@ -19,10 +19,8 @@
     <script th:src="@{/js/util.js}" defer></script>
     <script th:src="@{/js/components/header.js}" defer></script>
     <script th:src="@{/js/components/footer.js}" defer></script>
-    <script th:src="@{/js/components/patientRows.js}" defer></script>
-    
     <!-- Services and Main Logic -->
-    <script th:src="@{/js/services/patientServices.js}" defer></script>
+    <script type="module" th:src="@{/js/services/patientServices.js}" defer></script>
     <script type="module" th:src="@{/js/doctorDashboard.js}" defer></script>
 </head>
 <body onload="renderContent()">
@@ -38,15 +36,15 @@
                 <div class="controls-section">
                     <!-- Search Bar -->
                     <div class="search-container">
-                        <input type="text" id="searchBar" class="searchBar" placeholder="Search patients by name or ID..." onkeyup="filterPatients()" />
+                        <input type="text" id="searchBar" class="searchBar" placeholder="Search patients by name or ID..." />
                     </div>
 
                     <!-- Filter Controls -->
                     <div class="filters">
-                        <button id="todayButton" class="filter-btn" onclick="showTodayAppointments()">Today's Appointments</button>
+                        <button id="todayButton" class="filter-btn">Today's Appointments</button>
                         <div class="date-filter">
                             <label for="datePicker">Filter by Date:</label>
-                            <input type="date" id="datePicker" onchange="filterByDate()" />
+                            <input type="date" id="datePicker" />
                         </div>
                     </div>
                 </div>
